@@ -1,0 +1,7 @@
+﻿Rank, Name
+30, Jack
+2, Nune
+45, Jake
+33, Whatever
+28, Welch
+01, Jane

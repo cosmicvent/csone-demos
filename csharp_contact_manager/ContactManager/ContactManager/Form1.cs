@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using System.Collections;
+using System.Linq;
 
 namespace ContactManager {
     public partial class Form1 : Form {
@@ -41,7 +42,7 @@ namespace ContactManager {
             //get the name for the search
             string name = nameTextBox.Text;
             //search in the file
-            ArrayList result = new ArrayList();
+            IList<string> result = new List<string>();
 
             using ( StreamReader sr = new StreamReader( @"D:\contacts.csv" ) ) {
                 while ( !sr.EndOfStream ) {
@@ -52,6 +53,8 @@ namespace ContactManager {
                     }
                 }
             }
+
+            result.Where( x => x.StartsWith( "a" ) );
             //display contacts
             ShowContactForm showForm = new ShowContactForm();
             showForm.SetData( result );
