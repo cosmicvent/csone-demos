@@ -1,10 +1,8 @@
 - #user should be able to store new contact info
-
 - #user should be able to find contact information based on name
-  
 
-- user should be able to remove contacts
+- #user should be able to remove contacts
     - #add paging to search
-    - delete button to delete the contact
+    - #delete button to delete the contact
 
-- user should be able to modify existing contact info
+- #user should be able to modify existing contact info

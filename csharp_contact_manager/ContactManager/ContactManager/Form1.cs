@@ -12,6 +12,7 @@ using System.Linq;
 
 namespace ContactManager {
     public partial class Form1 : Form {
+        public const string FILE_PATH = @"D:\contacts.csv";
         public Form1() {
             InitializeComponent();
         }
@@ -44,7 +45,7 @@ namespace ContactManager {
             //search in the file
             IList<string> result = new List<string>();
 
-            using ( StreamReader sr = new StreamReader( @"D:\contacts.csv" ) ) {
+            using ( StreamReader sr = new StreamReader( FILE_PATH ) ) {
                 while ( !sr.EndOfStream ) {
                     string line = sr.ReadLine();
                     //if it is a match add it to the result
@@ -58,7 +59,19 @@ namespace ContactManager {
             //display contacts
             ShowContactForm showForm = new ShowContactForm();
             showForm.SetData( result );
+            showForm.FormClosed += showForm_FormClosed;
             showForm.Show();
+        }
+
+        void showForm_FormClosed( object sender, FormClosedEventArgs e ) {
+            ShowContactForm form = ( ShowContactForm ) sender;
+            //get the updated data
+            //save it in the file
+            using ( StreamWriter sw = new StreamWriter( FILE_PATH ) ) {
+                for ( int i = 0; i < form.Data.Count; i++ ) {
+                    sw.WriteLine( form.Data[i] );
+                }
+            }
         }
 
 

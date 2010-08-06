@@ -35,6 +35,7 @@
             this.nextButton = new System.Windows.Forms.Button();
             this.deleteButton = new System.Windows.Forms.Button();
             this.outputLabel = new System.Windows.Forms.Label();
+            this.saveButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label4
@@ -105,7 +106,7 @@
             // 
             this.prevButton.Location = new System.Drawing.Point( 24, 144 );
             this.prevButton.Name = "prevButton";
-            this.prevButton.Size = new System.Drawing.Size( 75, 23 );
+            this.prevButton.Size = new System.Drawing.Size( 47, 23 );
             this.prevButton.TabIndex = 16;
             this.prevButton.Text = "<<Prev";
             this.prevButton.UseVisualStyleBackColor = true;
@@ -113,9 +114,9 @@
             // 
             // nextButton
             // 
-            this.nextButton.Location = new System.Drawing.Point( 105, 144 );
+            this.nextButton.Location = new System.Drawing.Point( 77, 144 );
             this.nextButton.Name = "nextButton";
-            this.nextButton.Size = new System.Drawing.Size( 75, 23 );
+            this.nextButton.Size = new System.Drawing.Size( 50, 23 );
             this.nextButton.TabIndex = 17;
             this.nextButton.Text = "Next>>";
             this.nextButton.UseVisualStyleBackColor = true;
@@ -123,9 +124,9 @@
             // 
             // deleteButton
             // 
-            this.deleteButton.Location = new System.Drawing.Point( 186, 144 );
+            this.deleteButton.Location = new System.Drawing.Point( 133, 144 );
             this.deleteButton.Name = "deleteButton";
-            this.deleteButton.Size = new System.Drawing.Size( 75, 23 );
+            this.deleteButton.Size = new System.Drawing.Size( 53, 23 );
             this.deleteButton.TabIndex = 18;
             this.deleteButton.Text = "Delete";
             this.deleteButton.UseVisualStyleBackColor = true;
@@ -139,11 +140,22 @@
             this.outputLabel.Size = new System.Drawing.Size( 0, 13 );
             this.outputLabel.TabIndex = 19;
             // 
+            // saveButton
+            // 
+            this.saveButton.Location = new System.Drawing.Point( 192, 142 );
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size( 65, 23 );
+            this.saveButton.TabIndex = 20;
+            this.saveButton.Text = "Save";
+            this.saveButton.UseVisualStyleBackColor = true;
+            this.saveButton.Click += new System.EventHandler( this.saveButton_Click );
+            // 
             // ShowContactForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF( 6F, 13F );
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size( 287, 184 );
+            this.Controls.Add( this.saveButton );
             this.Controls.Add( this.outputLabel );
             this.Controls.Add( this.deleteButton );
             this.Controls.Add( this.nextButton );
@@ -177,6 +189,7 @@
         private System.Windows.Forms.Button nextButton;
         private System.Windows.Forms.Button deleteButton;
         private System.Windows.Forms.Label outputLabel;
+        private System.Windows.Forms.Button saveButton;
 
     }
 }

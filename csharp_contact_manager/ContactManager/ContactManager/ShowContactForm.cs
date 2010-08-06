@@ -10,13 +10,13 @@ using System.Collections;
 
 namespace ContactManager {
     public partial class ShowContactForm : Form {
-        public ArrayList Data;
+        public IList<string> Data;
         public ShowContactForm() {
             InitializeComponent();
         }
         public int _currentRow = 0;
 
-        public void SetData( ArrayList lines ) {
+        public void SetData( IList<string> lines ) {
             Data = lines;
             outputLabel.Text = "Found (" + Data.Count + ") rows";
             Render();
@@ -57,6 +57,11 @@ namespace ContactManager {
 
             Data.RemoveAt( _currentRow );
             Render();
+        }
+
+        private void saveButton_Click( object sender, EventArgs e ) {
+            string newLine = string.Format( "{0},{1},{2},{3}", nameTextBox.Text, telephoneTextBox.Text, emailTextBox.Text, organizationTextBox.Text );
+            Data[_currentRow] = newLine;
         }
     }
 }
