@@ -65,6 +65,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\QuestionsController.cs" />
+    <Compile Include="Controllers\SessionsController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -82,6 +84,9 @@
     <Content Include="Views\Questions\Create.aspx" />
     <Content Include="Views\Questions\Index.aspx" />
     <Content Include="Views\Questions\Show.aspx" />
+    <Content Include="Views\Sessions\New.aspx" />
+    <Content Include="Views\Test\Dummy.aspx" />
+    <Content Include="Views\Test\Index.aspx" />
     <Content Include="Web.config" />
     <Content Include="Content\scripts\jquery-1.4.1.js" />
     <Content Include="Content\scripts\jquery-1.4.1.min.js" />

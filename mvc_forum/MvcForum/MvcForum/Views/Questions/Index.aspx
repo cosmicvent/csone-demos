@@ -7,6 +7,13 @@
 </head>
 <body>
     <div>
+        Error:<%=TempData["error"] %></div>
+    <div>
+        Success:<%=TempData["success"] %></div>
+    <div>
+        Welcome
+        <%=User.Identity.Name %>!</div>
+    <div>
         <%IList<MvcForum.Question> questions = ( IList<MvcForum.Question> ) ViewData["questions"]; %>
         <%foreach ( var question in questions ) {%>
         <a href='/questions/show/<%=question.Id %>'>

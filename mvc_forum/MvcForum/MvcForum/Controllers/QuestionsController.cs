@@ -41,5 +41,16 @@ namespace MvcForum.Controllers {
         }
 
 
+        public ActionResult AddAnswer( FormCollection form ) {
+            Answer answer = new Answer();
+            int id = int.Parse( form["id"] );
+            answer.QuestionId = id;
+            answer.Body = form["body"];
+            answer.CreatedOn = DateTime.Now;
+            _dataContext.Answers.InsertOnSubmit( answer );
+            _dataContext.SubmitChanges();
+            return Redirect( "/questions/show/" + id );
+        }
+
     }
 }

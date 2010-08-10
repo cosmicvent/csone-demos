@@ -23,6 +23,22 @@
             <%=q.CreatedOn%>
         </p>
     </div>
+    <div>
+        <h3>
+            Answers (<%=q.Answers.Count %>)</h3>
+        <% foreach ( var answer in q.Answers ) { %>
+        <p>
+            <%=answer.Body %>
+        </p>
+        <p>
+            <%=answer.CreatedOn %></p>
+        <%} %>
+    </div>
+    <form method='post' action='/questions/addanswer'>
+    <input type='hidden' name='id' value='<%=q.Id %>' />
+    <textarea name='body'></textarea><br />
+    <input type='submit' value='Post Answer' />
+    </form>
     <a href='/questions/show/<%=q.Id -1 %>'>&lt;Prev</a> <a href='/questions/show/<%=q.Id +1 %>'>
         Next&gt;</a>
     <%} %>
