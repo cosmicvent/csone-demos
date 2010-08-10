@@ -1,0 +1,11 @@
+﻿MVC Forum
+============
+    - User should be able to add a question#
+    - Home page should display a list of questions#
+    - User should be able to see the whole question#
+    
+    - User should be able to answer a question
+    - User should be able to edit his question
+    - User should be able to edit his answer
+    - User should be able to mark an answer as the right answer
+    - App should be able to authenticate and authorize a user

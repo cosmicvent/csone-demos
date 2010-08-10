@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="MvcForum">
+  <DataContextMoniker Name="/MvcForumDataContext" />
+  <nestedChildShapes>
+    <classShape Id="3e227cc2-d881-4b7b-b51c-4032adedd850" absoluteBounds="5.75, 1.25, 2, 1.5785953776041666">
+      <DataClassMoniker Name="/MvcForumDataContext/Question" />
+      <nestedChildShapes>
+        <elementListCompartment Id="9f37331f-d142-4259-b902-c330800f4048" absoluteBounds="5.7650000000000006, 1.71, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>
