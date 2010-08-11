@@ -28,15 +28,15 @@ namespace MvcForum.Models
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
-    partial void InsertQuestion(MvcForum.Question instance);
-    partial void UpdateQuestion(MvcForum.Question instance);
-    partial void DeleteQuestion(MvcForum.Question instance);
     partial void InsertAnswer(MvcForum.Answer instance);
     partial void UpdateAnswer(MvcForum.Answer instance);
     partial void DeleteAnswer(MvcForum.Answer instance);
     partial void InsertUser(MvcForum.User instance);
     partial void UpdateUser(MvcForum.User instance);
     partial void DeleteUser(MvcForum.User instance);
+    partial void InsertQuestion(MvcForum.Question instance);
+    partial void UpdateQuestion(MvcForum.Question instance);
+    partial void DeleteQuestion(MvcForum.Question instance);
     #endregion
 		
 		public MvcForumDataContext() : 
@@ -69,14 +69,6 @@ namespace MvcForum.Models
 			OnCreated();
 		}
 		
-		public System.Data.Linq.Table<MvcForum.Question> Questions
-		{
-			get
-			{
-				return this.GetTable<MvcForum.Question>();
-			}
-		}
-		
 		public System.Data.Linq.Table<MvcForum.Answer> Answers
 		{
 			get
@@ -92,6 +84,14 @@ namespace MvcForum.Models
 				return this.GetTable<MvcForum.User>();
 			}
 		}
+		
+		public System.Data.Linq.Table<MvcForum.Question> Questions
+		{
+			get
+			{
+				return this.GetTable<MvcForum.Question>();
+			}
+		}
 	}
 }
 namespace MvcForum
@@ -101,168 +101,6 @@ namespace MvcForum
 	using System.ComponentModel;
 	using System;
 	
-	
-	[Table(Name="dbo.Questions")]
-	public partial class Question : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private long _Id;
-		
-		private string _Title;
-		
-		private string _Body;
-		
-		private System.DateTime _CreatedOn;
-		
-		private EntitySet<Answer> _Answers;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(long value);
-    partial void OnIdChanged();
-    partial void OnTitleChanging(string value);
-    partial void OnTitleChanged();
-    partial void OnBodyChanging(string value);
-    partial void OnBodyChanged();
-    partial void OnCreatedOnChanging(System.DateTime value);
-    partial void OnCreatedOnChanged();
-    #endregion
-		
-		public Question()
-		{
-			this._Answers = new EntitySet<Answer>(new Action<Answer>(this.attach_Answers), new Action<Answer>(this.detach_Answers));
-			OnCreated();
-		}
-		
-		[Column(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="BigInt NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public long Id
-		{
-			get
-			{
-				return this._Id;
-			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[Column(Storage="_Title", DbType="VarChar(300) NOT NULL", CanBeNull=false)]
-		public string Title
-		{
-			get
-			{
-				return this._Title;
-			}
-			set
-			{
-				if ((this._Title != value))
-				{
-					this.OnTitleChanging(value);
-					this.SendPropertyChanging();
-					this._Title = value;
-					this.SendPropertyChanged("Title");
-					this.OnTitleChanged();
-				}
-			}
-		}
-		
-		[Column(Storage="_Body", DbType="VarChar(MAX) NOT NULL", CanBeNull=false)]
-		public string Body
-		{
-			get
-			{
-				return this._Body;
-			}
-			set
-			{
-				if ((this._Body != value))
-				{
-					this.OnBodyChanging(value);
-					this.SendPropertyChanging();
-					this._Body = value;
-					this.SendPropertyChanged("Body");
-					this.OnBodyChanged();
-				}
-			}
-		}
-		
-		[Column(Storage="_CreatedOn", DbType="SmallDateTime NOT NULL")]
-		public System.DateTime CreatedOn
-		{
-			get
-			{
-				return this._CreatedOn;
-			}
-			set
-			{
-				if ((this._CreatedOn != value))
-				{
-					this.OnCreatedOnChanging(value);
-					this.SendPropertyChanging();
-					this._CreatedOn = value;
-					this.SendPropertyChanged("CreatedOn");
-					this.OnCreatedOnChanged();
-				}
-			}
-		}
-		
-		[Association(Name="Question_Answer", Storage="_Answers", ThisKey="Id", OtherKey="QuestionId")]
-		public EntitySet<Answer> Answers
-		{
-			get
-			{
-				return this._Answers;
-			}
-			set
-			{
-				this._Answers.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_Answers(Answer entity)
-		{
-			this.SendPropertyChanging();
-			entity.Question = this;
-		}
-		
-		private void detach_Answers(Answer entity)
-		{
-			this.SendPropertyChanging();
-			entity.Question = null;
-		}
-	}
 	
 	[Table(Name="dbo.Answers")]
 	public partial class Answer : INotifyPropertyChanging, INotifyPropertyChanged
@@ -278,6 +116,12 @@ namespace MvcForum
 		
 		private System.DateTime _CreatedOn;
 		
+		private System.Nullable<long> _AuthorId;
+		
+		private EntitySet<Question> _Questions;
+		
+		private EntityRef<User> _User;
+		
 		private EntityRef<Question> _Question;
 		
     #region Extensibility Method Definitions
@@ -292,10 +136,14 @@ namespace MvcForum
     partial void OnBodyChanged();
     partial void OnCreatedOnChanging(System.DateTime value);
     partial void OnCreatedOnChanged();
+    partial void OnAuthorIdChanging(System.Nullable<long> value);
+    partial void OnAuthorIdChanged();
     #endregion
 		
 		public Answer()
 		{
+			this._Questions = new EntitySet<Question>(new Action<Question>(this.attach_Questions), new Action<Question>(this.detach_Questions));
+			this._User = default(EntityRef<User>);
 			this._Question = default(EntityRef<Question>);
 			OnCreated();
 		}
@@ -384,6 +232,77 @@ namespace MvcForum
 			}
 		}
 		
+		[Column(Storage="_AuthorId", DbType="BigInt")]
+		public System.Nullable<long> AuthorId
+		{
+			get
+			{
+				return this._AuthorId;
+			}
+			set
+			{
+				if ((this._AuthorId != value))
+				{
+					if (this._User.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnAuthorIdChanging(value);
+					this.SendPropertyChanging();
+					this._AuthorId = value;
+					this.SendPropertyChanged("AuthorId");
+					this.OnAuthorIdChanged();
+				}
+			}
+		}
+		
+		[Association(Name="Answer_Question", Storage="_Questions", ThisKey="Id", OtherKey="CorrectAnswerId")]
+		public EntitySet<Question> Questions
+		{
+			get
+			{
+				return this._Questions;
+			}
+			set
+			{
+				this._Questions.Assign(value);
+			}
+		}
+		
+		[Association(Name="User_Answer", Storage="_User", ThisKey="AuthorId", OtherKey="Id", IsForeignKey=true)]
+		public User User
+		{
+			get
+			{
+				return this._User.Entity;
+			}
+			set
+			{
+				User previousValue = this._User.Entity;
+				if (((previousValue != value) 
+							|| (this._User.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._User.Entity = null;
+						previousValue.Answers.Remove(this);
+					}
+					this._User.Entity = value;
+					if ((value != null))
+					{
+						value.Answers.Add(this);
+						this._AuthorId = value.Id;
+					}
+					else
+					{
+						this._AuthorId = default(Nullable<long>);
+					}
+					this.SendPropertyChanged("User");
+				}
+			}
+		}
+		
 		[Association(Name="Question_Answer", Storage="_Question", ThisKey="QuestionId", OtherKey="Id", IsForeignKey=true)]
 		public Question Question
 		{
@@ -437,6 +356,18 @@ namespace MvcForum
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
+		
+		private void attach_Questions(Question entity)
+		{
+			this.SendPropertyChanging();
+			entity.Answer = this;
+		}
+		
+		private void detach_Questions(Question entity)
+		{
+			this.SendPropertyChanging();
+			entity.Answer = null;
+		}
 	}
 	
 	[Table(Name="dbo.Users")]
@@ -452,6 +383,10 @@ namespace MvcForum
 		private string _Password;
 		
 		private System.DateTime _CreatedOn;
+		
+		private EntitySet<Answer> _Answers;
+		
+		private EntitySet<Question> _Questions;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -469,6 +404,8 @@ namespace MvcForum
 		
 		public User()
 		{
+			this._Answers = new EntitySet<Answer>(new Action<Answer>(this.attach_Answers), new Action<Answer>(this.detach_Answers));
+			this._Questions = new EntitySet<Question>(new Action<Question>(this.attach_Questions), new Action<Question>(this.detach_Questions));
 			OnCreated();
 		}
 		
@@ -552,6 +489,32 @@ namespace MvcForum
 			}
 		}
 		
+		[Association(Name="User_Answer", Storage="_Answers", ThisKey="Id", OtherKey="AuthorId")]
+		public EntitySet<Answer> Answers
+		{
+			get
+			{
+				return this._Answers;
+			}
+			set
+			{
+				this._Answers.Assign(value);
+			}
+		}
+		
+		[Association(Name="User_Question", Storage="_Questions", ThisKey="Id", OtherKey="AuthorId")]
+		public EntitySet<Question> Questions
+		{
+			get
+			{
+				return this._Questions;
+			}
+			set
+			{
+				this._Questions.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -570,6 +533,322 @@ namespace MvcForum
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+		
+		private void attach_Answers(Answer entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = this;
+		}
+		
+		private void detach_Answers(Answer entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = null;
+		}
+		
+		private void attach_Questions(Question entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = this;
+		}
+		
+		private void detach_Questions(Question entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = null;
+		}
+	}
+	
+	[Table(Name="dbo.Questions")]
+	public partial class Question : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private long _Id;
+		
+		private string _Title;
+		
+		private string _Body;
+		
+		private System.DateTime _CreatedOn;
+		
+		private System.Nullable<long> _AuthorId;
+		
+		private System.Nullable<long> _CorrectAnswerId;
+		
+		private EntitySet<Answer> _Answers;
+		
+		private EntityRef<Answer> _Answer;
+		
+		private EntityRef<User> _User;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(long value);
+    partial void OnIdChanged();
+    partial void OnTitleChanging(string value);
+    partial void OnTitleChanged();
+    partial void OnBodyChanging(string value);
+    partial void OnBodyChanged();
+    partial void OnCreatedOnChanging(System.DateTime value);
+    partial void OnCreatedOnChanged();
+    partial void OnAuthorIdChanging(System.Nullable<long> value);
+    partial void OnAuthorIdChanged();
+    partial void OnCorrectAnswerIdChanging(System.Nullable<long> value);
+    partial void OnCorrectAnswerIdChanged();
+    #endregion
+		
+		public Question()
+		{
+			this._Answers = new EntitySet<Answer>(new Action<Answer>(this.attach_Answers), new Action<Answer>(this.detach_Answers));
+			this._Answer = default(EntityRef<Answer>);
+			this._User = default(EntityRef<User>);
+			OnCreated();
+		}
+		
+		[Column(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="BigInt NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public long Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_Title", DbType="VarChar(300) NOT NULL", CanBeNull=false)]
+		public string Title
+		{
+			get
+			{
+				return this._Title;
+			}
+			set
+			{
+				if ((this._Title != value))
+				{
+					this.OnTitleChanging(value);
+					this.SendPropertyChanging();
+					this._Title = value;
+					this.SendPropertyChanged("Title");
+					this.OnTitleChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_Body", DbType="VarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string Body
+		{
+			get
+			{
+				return this._Body;
+			}
+			set
+			{
+				if ((this._Body != value))
+				{
+					this.OnBodyChanging(value);
+					this.SendPropertyChanging();
+					this._Body = value;
+					this.SendPropertyChanged("Body");
+					this.OnBodyChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_CreatedOn", DbType="SmallDateTime NOT NULL")]
+		public System.DateTime CreatedOn
+		{
+			get
+			{
+				return this._CreatedOn;
+			}
+			set
+			{
+				if ((this._CreatedOn != value))
+				{
+					this.OnCreatedOnChanging(value);
+					this.SendPropertyChanging();
+					this._CreatedOn = value;
+					this.SendPropertyChanged("CreatedOn");
+					this.OnCreatedOnChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_AuthorId", DbType="BigInt")]
+		public System.Nullable<long> AuthorId
+		{
+			get
+			{
+				return this._AuthorId;
+			}
+			set
+			{
+				if ((this._AuthorId != value))
+				{
+					if (this._User.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnAuthorIdChanging(value);
+					this.SendPropertyChanging();
+					this._AuthorId = value;
+					this.SendPropertyChanged("AuthorId");
+					this.OnAuthorIdChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_CorrectAnswerId", DbType="BigInt")]
+		public System.Nullable<long> CorrectAnswerId
+		{
+			get
+			{
+				return this._CorrectAnswerId;
+			}
+			set
+			{
+				if ((this._CorrectAnswerId != value))
+				{
+					if (this._Answer.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnCorrectAnswerIdChanging(value);
+					this.SendPropertyChanging();
+					this._CorrectAnswerId = value;
+					this.SendPropertyChanged("CorrectAnswerId");
+					this.OnCorrectAnswerIdChanged();
+				}
+			}
+		}
+		
+		[Association(Name="Question_Answer", Storage="_Answers", ThisKey="Id", OtherKey="QuestionId")]
+		public EntitySet<Answer> Answers
+		{
+			get
+			{
+				return this._Answers;
+			}
+			set
+			{
+				this._Answers.Assign(value);
+			}
+		}
+		
+		[Association(Name="Answer_Question", Storage="_Answer", ThisKey="CorrectAnswerId", OtherKey="Id", IsForeignKey=true)]
+		public Answer Answer
+		{
+			get
+			{
+				return this._Answer.Entity;
+			}
+			set
+			{
+				Answer previousValue = this._Answer.Entity;
+				if (((previousValue != value) 
+							|| (this._Answer.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Answer.Entity = null;
+						previousValue.Questions.Remove(this);
+					}
+					this._Answer.Entity = value;
+					if ((value != null))
+					{
+						value.Questions.Add(this);
+						this._CorrectAnswerId = value.Id;
+					}
+					else
+					{
+						this._CorrectAnswerId = default(Nullable<long>);
+					}
+					this.SendPropertyChanged("Answer");
+				}
+			}
+		}
+		
+		[Association(Name="User_Question", Storage="_User", ThisKey="AuthorId", OtherKey="Id", IsForeignKey=true)]
+		public User User
+		{
+			get
+			{
+				return this._User.Entity;
+			}
+			set
+			{
+				User previousValue = this._User.Entity;
+				if (((previousValue != value) 
+							|| (this._User.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._User.Entity = null;
+						previousValue.Questions.Remove(this);
+					}
+					this._User.Entity = value;
+					if ((value != null))
+					{
+						value.Questions.Add(this);
+						this._AuthorId = value.Id;
+					}
+					else
+					{
+						this._AuthorId = default(Nullable<long>);
+					}
+					this.SendPropertyChanged("User");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Answers(Answer entity)
+		{
+			this.SendPropertyChanging();
+			entity.Question = this;
+		}
+		
+		private void detach_Answers(Answer entity)
+		{
+			this.SendPropertyChanging();
+			entity.Question = null;
 		}
 	}
 }

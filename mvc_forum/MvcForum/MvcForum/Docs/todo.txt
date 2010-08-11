@@ -7,7 +7,6 @@
     - Answers should be displayed with the question#
     - App should be able to authenticate#
     - App should be able to authorize a user#
-    
-    - User should be able to edit his question
-    - User should be able to edit his answer
-    - User should be able to mark an answer as the right answer
+    - User should be able to edit his question#
+    - User should be able to edit his answer#
+    - User should be able to mark an answer as the right answer#

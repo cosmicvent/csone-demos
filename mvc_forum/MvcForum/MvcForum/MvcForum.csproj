@@ -82,6 +82,8 @@
     <Content Include="Global.asax" />
     <Content Include="Content\css\master.css" />
     <Content Include="Views\Questions\Create.aspx" />
+    <Content Include="Views\Questions\Edit.aspx" />
+    <Content Include="Views\Questions\EditAnswer.aspx" />
     <Content Include="Views\Questions\Index.aspx" />
     <Content Include="Views\Questions\Show.aspx" />
     <Content Include="Views\Sessions\New.aspx" />

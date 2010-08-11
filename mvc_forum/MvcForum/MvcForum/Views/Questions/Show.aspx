@@ -23,15 +23,27 @@
             <%=q.CreatedOn%>
         </p>
     </div>
+    <%if ( q.User.UserName == User.Identity.Name ) { %>
+    <a href='/questions/edit/<%=q.Id %>'>Edit</a>
+    <%} %>
     <div>
         <h3>
             Answers (<%=q.Answers.Count %>)</h3>
         <% foreach ( var answer in q.Answers ) { %>
+        <%if ( q.CorrectAnswerId.HasValue && answer.Id == q.CorrectAnswerId.Value ) { %>
+        (Correct Answer)
+        <%} %>
         <p>
             <%=answer.Body %>
         </p>
         <p>
             <%=answer.CreatedOn %></p>
+        <%if ( answer.User.UserName == User.Identity.Name ) { %>
+        <a href='/questions/editanswer/<%=answer.Id %>'>Edit</a>
+        <%} %>
+        <%if ( q.User.UserName == User.Identity.Name && q.CorrectAnswerId == null ) { %>
+        <a href='/questions/markanswer/<%=answer.Id %>'>Mark as Correct Answer</a>
+        <%} %>
         <%} %>
     </div>
     <form method='post' action='/questions/addanswer'>

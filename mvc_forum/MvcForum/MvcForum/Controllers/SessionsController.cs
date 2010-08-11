@@ -28,7 +28,12 @@ namespace MvcForum.Controllers {
             }
 
             TempData["success"] = "Successfully logged in";
-            FormsAuthentication.RedirectFromLoginPage( user.UserName, false );
+            FormsAuthentication.RedirectFromLoginPage( user.UserName, false ); //It sets up the ASP.NET User object
+            return Redirect( "/" );
+        }
+
+        public ActionResult Destroy() {
+            FormsAuthentication.SignOut();
             return Redirect( "/" );
         }
     }
