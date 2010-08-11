@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MvcForum.Models;
+using System.Web.Security;
 
 namespace MvcForum.Controllers {
     public class UsersController : Controller {
@@ -22,7 +23,8 @@ namespace MvcForum.Controllers {
         public ActionResult SignUp( FormCollection form ) {
             User user = new User();
             user.UserName = form["username"];
-            user.Password = form["password"];
+            string hashedPassword = FormsAuthentication.HashPasswordForStoringInConfigFile( form["password"], "SHA1" );
+            user.Password = hashedPassword;
             user.CreatedOn = DateTime.Now;
             _dataContext.Users.InsertOnSubmit( user );
             _dataContext.SubmitChanges();

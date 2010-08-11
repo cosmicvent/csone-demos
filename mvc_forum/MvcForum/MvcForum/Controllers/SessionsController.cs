@@ -22,7 +22,8 @@ namespace MvcForum.Controllers {
         public ActionResult Create( FormCollection form ) {
             User user = _dataContext.Users.FirstOrDefault( x => x.UserName == form["username"] );
 
-            if ( user == null || user.Password != form["password"] ) {
+            string hashedPassword = FormsAuthentication.HashPasswordForStoringInConfigFile( form["password"], "SHA1" );
+            if ( user == null || user.Password != hashedPassword ) {
                 TempData["error"] = "invalid username or password";
                 return View( "New" );
             }
