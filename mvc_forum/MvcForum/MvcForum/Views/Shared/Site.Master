@@ -1,0 +1,124 @@
+﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Mvc Forum</title>
+    <style type='text/css'>
+        body
+        {
+            margin: 0;
+            background-color: #888;
+        }
+        #wrapper
+        {
+            margin: 0 auto;
+            width: 800px;
+        }
+        #header #logo
+        {
+            font-size: 2em;
+            float: left;
+        }
+        #header, #footer
+        {
+            background-color: #222;
+            color: #eee;
+            padding: 5px;
+        }
+        #content
+        {
+            background-color: #eee;
+            padding: 5px;
+        }
+        #header #user-nav
+        {
+            float: right;
+        }
+        #header a
+        {
+            color: #fff;
+        }
+        #navbar ul
+        {
+            list-style: none;
+            margin: 10px 0px;
+            padding: 0px;
+        }
+        #navbar li
+        {
+            display: inline;
+        }
+        #navbar a
+        {
+            padding: 5px;
+            background-color: #333;
+            color: #eee;
+            text-decoration: none;
+        }
+        #navbar a:hover
+        {
+            background-color: #111;
+        }
+        #messages .error, #messages .success
+        {
+            padding: 5px;
+            border: 1px solid #000;
+            margin: 2px 0px;
+        }
+        #messages .error
+        {
+            color: #f66;
+            background-color: #a99;
+        }
+        #messages .success
+        {
+            color: #6f6;
+            background-color: #9a9;
+        }
+    </style>
+</head>
+<body>
+    <div id='wrapper'>
+        <div id='header'>
+            <div id='logo'>
+                Mvc Forum</div>
+            <div id='user-nav'>
+                <%if ( HttpContext.Current.User.Identity.IsAuthenticated ) {%>
+                Welcome
+                <%=HttpContext.Current.User.Identity.Name %>! [ <a href='/sessions/destroy'>Log Off</a>
+                ]
+                <%}
+                  else { %>
+                [ <a href='/sessions/new'>Log On</a> | <a href='/users/signup'>Sign Up</a> ]
+                <%} %>
+            </div>
+            <div style='clear: both;'>
+            </div>
+        </div>
+        <div id='navbar'>
+            <ul>
+                <li><a href='/'>Home</a> </li>
+                <li><a href='/questions/create'>Ask a Question</a> </li>
+            </ul>
+        </div>
+        <div id='content'>
+            <div id='messages'>
+                <%if ( TempData.Keys.Contains( "error" ) ) { %>
+                <div class='error'>
+                    <%=TempData["error"] %></div>
+                <%} %>
+                <%if ( TempData.Keys.Contains( "success" ) ) { %>
+                <div class='success'>
+                    <%=TempData["success"] %></div>
+                <%} %>
+            </div>
+            <asp:ContentPlaceHolder ID="MainContent" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+        <div id='footer'>
+            Mvc Forum &copy; 2010
+        </div>
+    </div>
+</body>
+</html>
